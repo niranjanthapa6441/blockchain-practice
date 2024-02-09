@@ -1,26 +1,36 @@
 const { GENESIS_DATA } = require('./config');
 const { cryptoHash } = require('./cryptoHash');
-const hexToBinary = require('hex-to-binary');
 class Block {
-    constructor({ timeStamp, prevHash, hash, data }) {
+    constructor({ timeStamp, prevHash, hash, data, nonce, difficulty }) {
         this.timeStamp = timeStamp;
         this.hash = hash;
         this.prevHash = prevHash;
         this.data = data;
+        this.nonce = nonce;
+        this.difficulty = difficulty;
     }
     static genesis() {
         return new this(GENESIS_DATA);
     }
 
     static mineBlock({ prevBlock, data }) {
+        let hash, timeStamp;
         const prevHash = prevBlock.hash;
-        const timeStamp = Date.now();
-        const hash = cryptoHash(timeStamp, prevHash, data)
+        const difficulty = prevBlock.difficulty;
+        let nonce = 0;
+        do {
+            nonce++;
+            timeStamp = Date.now();
+            hash = cryptoHash(timeStamp, prevHash, data, nonce, difficulty)
+        }
+        while (hash.substring(0, difficulty) !== '0'.repeat(difficulty));
         return new this({
             timeStamp,
             prevHash,
             data,
-            hash
+            hash,
+            nonce,
+            difficulty
         });
     }
 }

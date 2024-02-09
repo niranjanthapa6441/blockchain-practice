@@ -28,14 +28,14 @@ class BlockChain {
             return false
         };
         for (let i = 1; i < chain.length; i++) {
-            const { timeStamp, prevHash, hash, data } = chain[i];
+            const { timeStamp, prevHash, hash, data, nonce, difficulty } = chain[i];
             const realLastHash = chain[i - 1].hash;
 
             if (prevHash !== realLastHash) {
                 return false;
             }
 
-            const validatedHash = cryptoHash(timeStamp, prevHash, data);
+            const validatedHash = cryptoHash(timeStamp, prevHash, data, nonce, difficulty);
 
             if (hash !== validatedHash) {
                 return false;
