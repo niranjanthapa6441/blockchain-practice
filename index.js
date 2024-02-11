@@ -17,9 +17,11 @@ let PEER_PORT;
 
 setTimeout(() => publishSubscriber.broadcastChain(), 1000);
 
-if (GENERATE_PEER_PORT === 'true') {
-    PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
+if (GENERATE_PEER_PORT) {
+    const randomOffset = Math.ceil(Math.random() * 1000);
+    PEER_PORT = parseInt(DEFAULT_PORT) + parseInt(randomOffset);
 }
+
 
 const syncChains = () => {
     request({ url: `${ROOT_NODE_ADDRESS}/api/blocks` }, (error, response, body) => {
@@ -33,7 +35,7 @@ const syncChains = () => {
 app.use(bodyParser.json());
 
 const PORT = PEER_PORT || DEFAULT_PORT;
-
+console.log(PEER_PORT);
 app.listen(PORT, () => {
     console.log(`Listening to Port: ${PORT}`);
     syncChains();
