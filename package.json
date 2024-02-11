@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "block.js",
- "scripts": {
+  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "dotenv": "^16.4.2",
     "express": "^4.18.2",
     "hex-to-binary": "^1.0.1",
     "redis": "^3.1.1",
